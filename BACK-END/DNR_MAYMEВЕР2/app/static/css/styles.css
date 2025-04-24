@@ -1,0 +1,23 @@
+/* Стили для профилей */
+.profile-card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.profile-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #eee;
+}
+
+/* Разные цвета для разных ролей */
+.admin-feature {
+    border-left: 4px solid #dc3545;
+}
+
+.partner-feature {
+    border-left: 4px solid #0d6efd;
+}
+
+.volunteer-feature {
+    border-left: 4px solid #198754;
+}

@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Мой профиль{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Мой профиль</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="{{ url_for('main.volunteer_dashboard') }}" class="btn btn-sm btn-outline-secondary">
+            <i class="bi bi-pencil"></i> Редактировать
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-body text-center">
+                <img src="https://ui-avatars.com/api/?name={{ current_user.full_name }}&background=random&size=128" class="rounded-circle mb-3" alt="Аватар">
+                <h3>{{ current_user.full_name }}</h3>
+                <p class="text-muted">Волонтер</p>
+                
+                <div class="mb-3">
+                    <span class="badge bg-{% if bonus_level == 'max' %}danger{% elif bonus_level == 'medium' %}warning{% else %}secondary{% endif %} fs-6">
+                        {% if bonus_level == 'max' %}Максимальный уровень
+                        {% elif bonus_level == 'medium' %}Средний уровень
+                        {% else %}Минимальный уровень
+                        {% endif %}
+                    </span>
+                </div>
+                
+                <p class="mb-1"><i class="bi bi-trophy"></i> Рейтинг: {{ current_user.rating }}</p>
+                <p class="mb-1"><i class="bi bi-gift"></i> Активных бонусов: {{ active_bonuses|length }}</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Мои активные бонусы</h5>
+            </div>
+            <div class="card-body">
+                {% if active_bonuses %}
+                <div class="row">
+                    {% for bonus in active_bonuses %}
+                    <div class="col-md-6 mb-3">
+                        <div class="card bonus-card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ bonus.bonus_type.name }}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">{{ bonus.bonus_type.partner.company_name }}</h6>
+                                <p class="card-text">{{ bonus.bonus_type.description }}</p>
+                            </div>
+                            <div class="card-footer bg-transparent">
+                                <small class="text-muted">
+                                    Действует до: {{ bonus.expires_at.strftime('%d.%m.%Y') }}
+                                </small>
+                                <a href="#" class="btn btn-sm btn-outline-primary float-end">Использовать</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="alert alert-info">
+                    У вас пока нет активных бонусов. Участвуйте в мероприятиях, чтобы получать бонусы!
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2 class="h4 mt-4">Рекомендуемые партнеры</h2>
+<div class="row">
+    {% for partner in recommended_partners %}
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ partner.company_name }}</h5>
+                <p class="card-text text-truncate">{{ partner.description }}</p>
+                <a href="{{ url_for('main.partner_details', partner_id=partner.id) }}" class="btn btn-sm btn-outline-primary">Подробнее</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

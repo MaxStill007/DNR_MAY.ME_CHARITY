@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Платформа волонтеров{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="{{ url_for('main.index') }}">Волонтерская платформа</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                {% if current_user.is_authenticated %}
+                    {% if current_user.role == 'admin' %}
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.admin_dashboard') }}">Админ-панель</a></li>
+                    {% elif current_user.role == 'partner' %}
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.partner_dashboard') }}">Панель партнера</a></li>
+                    {% elif current_user.role == 'volunteer' %}
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.volunteer_dashboard') }}">Мой профиль</a></li>
+                    {% endif %}
+                {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main.register_volunteer') }}">Регистрация волонтера</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main.register_partner') }}">Регистрация партнера</a></li>
+                {% endif %}
+            </ul>
+            <ul class="navbar-nav">
+                {% if current_user.is_authenticated %}
+                    <li class="nav-item"><span class="navbar-text">Привет, {{ current_user.full_name }}!</span></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main.logout') }}">Выйти</a></li>
+                {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main.login') }}">Войти</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

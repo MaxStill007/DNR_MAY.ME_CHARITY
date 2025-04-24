@@ -1,0 +1,27 @@
+<ul class="nav flex-column">
+    <li class="nav-item">
+        <a class="nav-link active" href="{{ url_for('main.partner_dashboard') }}">
+            <i class="bi bi-house-door"></i> Главная
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('main.partner_bonuses') }}">
+            <i class="bi bi-gift"></i> Мои бонусы
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('main.create_bonus') }}">
+            <i class="bi bi-plus-circle"></i> Создать бонус
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('main.partner_statistics') }}">
+            <i class="bi bi-bar-chart"></i> Статистика
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('main.partner_profile') }}">
+            <i class="bi bi-gear"></i> Настройки
+        </a>
+    </li>
+</ul>

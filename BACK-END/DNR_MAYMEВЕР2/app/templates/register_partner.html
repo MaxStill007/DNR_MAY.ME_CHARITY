@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block title %}Регистрация партнера{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Регистрация партнера</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('main.register_partner') }}" novalidate>
+                        {{ form.hidden_tag() }}
+
+                        <h4 class="mb-4">Персональные данные</h4>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    {{ form.full_name(class="form-control" + (' is-invalid' if form.full_name.errors else ''), placeholder="Иванов Иван Иванович") }}
+                                    {{ form.full_name.label(class="form-label") }}
+                                    {% for error in form.full_name.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    {{ form.inn(class="form-control" + (' is-invalid' if form.inn.errors else ''), placeholder="123456789012") }}
+                                    {{ form.inn.label(class="form-label") }}
+                                    {% for error in form.inn.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    {{ form.email(class="form-control" + (' is-invalid' if form.email.errors else ''), placeholder="example@mail.com") }}
+                                    {{ form.email.label(class="form-label") }}
+                                    {% for error in form.email.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    {{ form.phone(class="form-control" + (' is-invalid' if form.phone.errors else ''), placeholder="+71234567890") }}
+                                    {{ form.phone.label(class="form-label") }}
+                                    {% for error in form.phone.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    {{ form.birth_date(class="form-control" + (' is-invalid' if form.birth_date.errors else ''), type="date") }}
+                                    {{ form.birth_date.label(class="form-label") }}
+                                    {% for error in form.birth_date.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <h4 class="mb-4">Данные компании</h4>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    {{ form.company_name(class="form-control" + (' is-invalid' if form.company_name.errors else ''), placeholder="ООО 'Ромашка'") }}
+                                    {{ form.company_name.label(class="form-label") }}
+                                    {% for error in form.company_name.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    {{ form.description(class="form-control" + (' is-invalid' if form.description.errors else ''), style="height: 100px", placeholder="Описание деятельности компании") }}
+                                    {{ form.description.label(class="form-label") }}
+                                    {% for error in form.description.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <h6>Ключ предоставляеться администрацией платформы!</h6>
+                                    {{ form.partner_key(class="form-control" + (' is-invalid' if form.partner_key.errors else ''), placeholder="Секретный ключ") }}
+                                    {{ form.partner_key.label(class="form-label") }}
+                                    {% for error in form.partner_key.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                    <small class="text-muted">Ключ предоставляется администрацией платформы</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <h4 class="mb-4">Безопасность</h4>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    {{ form.password(class="form-control" + (' is-invalid' if form.password.errors else ''), placeholder="Пароль") }}
+                                    {{ form.password.label(class="form-label") }}
+                                    {% for error in form.password.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    {{ form.confirm_password(class="form-control" + (' is-invalid' if form.confirm_password.errors else ''), placeholder="Подтвердите пароль") }}
+                                    {{ form.confirm_password.label(class="form-label") }}
+                                    {% for error in form.confirm_password.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-check mt-4">
+                            <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+                            <label class="form-check-label" for="agreeTerms">
+                                Я согласен с <a href="#">условиями использования</a> и <a href="#">политикой конфиденциальности</a>
+                            </label>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button class="btn btn-primary btn-lg" type="submit">Зарегистрироваться</button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <p>Уже есть аккаунт? <a href="{{ url_for('main.login') }}">Войдите</a></p>
+                        <p>Хотите зарегистрироваться как волонтер? <a href="{{ url_for('main.register_volunteer') }}">Перейти к регистрации волонтера</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-floating {
+        margin-bottom: 1rem;
+    }
+    .card {
+        border-radius: 15px;
+        overflow: hidden;
+    }
+    .card-header {
+        border-radius: 15px 15px 0 0 !important;
+    }
+</style>
+{% endblock %}

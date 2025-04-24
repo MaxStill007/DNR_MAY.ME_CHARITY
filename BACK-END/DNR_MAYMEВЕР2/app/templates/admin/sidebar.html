@@ -1,0 +1,27 @@
+<ul class="nav flex-column">
+    <li class="nav-item">
+        <a class="nav-link active" href="{{ url_for('main.admin_dashboard') }}">
+            <i class="bi bi-house-door"></i> Главная
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('main.manage_volunteers') }}">
+            <i class="bi bi-people"></i> Управление волонтерами
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('main.manage_partners') }}">
+            <i class="bi bi-building"></i> Управление партнерами
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('main.import_csv') }}">
+            <i class="bi bi-file-earmark-spreadsheet"></i> Импорт CSV
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('main.reports') }}">
+            <i class="bi bi-graph-up"></i> Отчеты
+        </a>
+    </li>
+</ul>

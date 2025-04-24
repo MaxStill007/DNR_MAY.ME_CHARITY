@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Платформа волонтеров</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="{# {{ url_for('main.index') }} #}">Волонтерская платформа</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                {% if current_user.is_authenticated %}
+                    {% if current_user.role == 'admin' %}
+                        <li class="nav-item"><a class="nav-link" href="{#{{ url_for('main.admin_dashboard') }}#}">Админ-панель</a></li>
+                    {% elif current_user.role == 'partner' %}
+                        <li class="nav-item"><a class="nav-link" href="{#{{ url_for('main.partner_dashboard') }}#}">Панель партнера</a></li>
+                    {% elif current_user.role == 'volunteer' %}
+                        <li class="nav-item"><a class="nav-link" href="{#{{ url_for('main.volunteer_dashboard') }}#}">Мой профиль</a></li>
+                    {% endif %}
+                {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{#{{ url_for('main.register_volunteer') }}#}">Регистрация волонтера</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{#{{ url_for('main.register_partner') }}#}">Регистрация партнера</a></li>
+                {% endif %}
+            </ul>
+            <ul class="navbar-nav">
+                {% if current_user.is_authenticated %}
+                    <li class="nav-item"><span class="navbar-text">Привет, {{ current_user.full_name }}!</span></li>
+                    <li class="nav-item"><a class="nav-link" href="{#{{ url_for('main.logout') }}#}">Выйти</a></li>
+                {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{#{{ url_for('main.login') }}#}">Войти</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Мой профиль</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="{#{{ url_for('main.volunteer_dashboard') }}#}" class="btn btn-sm btn-outline-secondary">
+            <i class="bi bi-pencil"></i> Редактировать
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-body text-center">
+                <img src="https://ui-avatars.com/api/?name={{ current_user.full_name }}&background=random&size=128" class="rounded-circle mb-3" alt="Аватар">
+                <h3>{{ current_user.full_name }}</h3>
+                <p class="text-muted">Волонтер</p>
+
+                <div class="mb-3">
+                    <span class="badge bg-{% if bonus_level == 'max' %}danger{% elif bonus_level == 'medium' %}warning{% else %}secondary{% endif %} fs-6">
+                        {% if bonus_level == 'max' %}Максимальный уровень
+                        {% elif bonus_level == 'medium' %}Средний уровень
+                        {% else %}Минимальный уровень
+                        {% endif %}
+                    </span>
+                </div>
+
+                <p class="mb-1"><i class="bi bi-trophy"></i> Рейтинг: {{ current_user.rating }}</p>
+                <p class="mb-1"><i class="bi bi-gift"></i> Активных бонусов: {{ active_bonuses|length }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Мои активные бонусы</h5>
+            </div>
+            <div class="card-body">
+                {% if active_bonuses %}
+                <div class="row">
+                    {% for bonus in active_bonuses %}
+                    <div class="col-md-6 mb-3">
+                        <div class="card bonus-card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ bonus.bonus_type.name }}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">{{ bonus.bonus_type.partner.company_name }}</h6>
+                                <p class="card-text">{{ bonus.bonus_type.description }}</p>
+                            </div>
+                            <div class="card-footer bg-transparent">
+                                <small class="text-muted">
+                                    Действует до: {{ bonus.expires_at.strftime('%d.%m.%Y') }}
+                                </small>
+                                <a href="#" class="btn btn-sm btn-outline-primary float-end">Использовать</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="alert alert-info">
+                    У вас пока нет активных бонусов. Участвуйте в мероприятиях, чтобы получать бонусы!
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2 class="h4 mt-4">Рекомендуемые партнеры</h2>
+            <div class="row">
+                {% for partner in recommended_partners %}
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ partner.company_name }}</h5>
+                            <p class="card-text text-truncate">{{ partner.description }}</p>
+                            <a href="{#{{ url_for('main.partner_details', partner_id=partner.id) }}#}" class="btn btn-sm btn-outline-primary">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+</div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

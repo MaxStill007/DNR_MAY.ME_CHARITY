@@ -1,0 +1,27 @@
+<ul class="nav flex-column">
+    <li class="nav-item">
+        <a class="nav-link active" href="{{ url_for('main.volunteer_dashboard') }}">
+            <i class="bi bi-house-door"></i> Главная
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('main.available_bonuses') }}">
+            <i class="bi bi-gift"></i> Доступные бонусы
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('main.bonus_history') }}">
+            <i class="bi bi-clock-history"></i> История бонусов
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('main.partners_list') }}">
+            <i class="bi bi-buildings"></i> Партнеры
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('main.volunteer_profile') }}">
+            <i class="bi bi-person"></i> Мой профиль
+        </a>
+    </li>
+</ul>

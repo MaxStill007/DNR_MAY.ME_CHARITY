@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="p-5 mb-4 bg-light rounded-3">
+    <div class="container-fluid py-5 text-center">
+        <h1 class="display-5 fw-bold">Добро пожаловать на платформу волонтеров!</h1>
+        <p class="col-md-8 fs-4 mx-auto">
+            Присоединяйтесь к нашему сообществу, участвуйте в мероприятиях и получайте бонусы от наших партнеров.
+        </p>
+        <div class="mt-4">
+            {% if not current_user.is_authenticated %}
+            <a class="btn btn-primary btn-lg me-3" href="{{ url_for('main.register_volunteer') }}">Стать волонтером</a>
+            <a class="btn btn-outline-secondary btn-lg" href="{{ url_for('main.login') }}">Войти</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="row align-items-md-stretch">
+    <div class="col-md-6 mb-4">
+        <div class="h-100 p-5 text-white bg-primary rounded-3">
+            <h2>Для волонтеров</h2>
+            <p>
+                Регистрируйтесь, участвуйте в мероприятиях, получайте рейтинг и обменивайте его на бонусы от наших партнеров.
+            </p>
+            <a href="{{ url_for('main.register_volunteer') }}" class="btn btn-outline-light">Зарегистрироваться</a>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="h-100 p-5 bg-light border rounded-3">
+            <h2>Для партнеров</h2>
+            <p>
+                Станьте партнером платформы, предлагайте бонусы волонтерам и находите активных и мотивированных людей.
+            </p>
+            <a href="{{ url_for('main.register_partner') }}" class="btn btn-outline-secondary">Стать партнером</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
